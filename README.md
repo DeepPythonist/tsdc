@@ -1,7 +1,9 @@
 # TSDC - Time Series Dataset Creator
 
+[![PyPI version](https://badge.fury.io/py/tsdc.svg)](https://badge.fury.io/py/tsdc)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://github.com/DeepPythonist/tsdc/actions/workflows/tests.yml/badge.svg)](https://github.com/DeepPythonist/tsdc/actions/workflows/tests.yml)
 
 A powerful and intuitive Python library for creating time series datasets ready for machine learning models like LSTM, GRU, and Transformers. No more manual data preprocessing - just load your data and start training!
 
