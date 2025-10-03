@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tsdc"
 version = "0.1.0"
-description = "A powerful library for creating time series datasets for machine learning models"
+description = "Automate time series dataset preparation for LSTM, GRU, and Transformer models with proper temporal splitting"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}

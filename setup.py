@@ -4,7 +4,7 @@ setup(
     name="tsdc",
     version="0.1.0",
     author="DeepPythonist",
-    description="A powerful and simple library for creating time series datasets for machine learning models",
+    description="Automate time series dataset preparation for LSTM, GRU, and Transformer models with proper temporal splitting",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/DeepPythonist/tsdc",
