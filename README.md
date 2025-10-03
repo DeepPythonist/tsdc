@@ -31,7 +31,29 @@ When working with time series models (especially LSTM), you always need to:
 
 ## Installation
 
-### From source (recommended for development)
+### From PyPI (Recommended)
+
+Install TSDC using pip:
+
+```bash
+pip install tsdc
+```
+
+That's it! You're ready to use TSDC.
+
+### With optional dependencies
+
+For financial data loading and examples:
+
+```bash
+pip install tsdc[examples]
+```
+
+This includes `yfinance` for financial data and `matplotlib` for visualization.
+
+### From source (for development)
+
+If you want to contribute or modify the code:
 
 ```bash
 git clone https://github.com/DeepPythonist/tsdc.git
@@ -39,61 +61,82 @@ cd tsdc
 pip install -e .
 ```
 
-### For additional features
-
-```bash
-pip install -e ".[examples]"
-```
-
-This includes `yfinance` for financial data loading and `matplotlib` for visualization.
-
 ## Quick Start
 
-### Basic Example: Single Variable
+Get started with TSDC in just 3 steps!
+
+### Step 1: Install
+
+```bash
+pip install tsdc
+```
+
+### Step 2: Create Your Dataset
 
 ```python
 import numpy as np
 from tsdc import TimeSeriesDataset
 
-bitcoin_prices = np.random.randn(1000) * 1000 + 40000
+# Your time series data (e.g., stock prices, sensor data, etc.)
+data = np.random.randn(1000) * 100 + 500
 
+# Create dataset with 60 timesteps looking back, predicting 1 step ahead
 dataset = TimeSeriesDataset(
-    data=bitcoin_prices,
+    data=data,
     lookback=60,
-    horizon=1
+    horizon=1,
+    scaler_type='minmax'
 )
-dataset.prepare()
 
+# Prepare train/val/test splits
+dataset.prepare()
+```
+
+### Step 3: Get Your Data (Ready for LSTM!)
+
+```python
 X_train, y_train = dataset.get_train()
 X_val, y_val = dataset.get_val()
 X_test, y_test = dataset.get_test()
 
 print(f"X_train shape: {X_train.shape}")  # (samples, 60, 1)
-print(f"y_train shape: {y_train.shape}")  # (samples, 1)
+print(f"y_train shape: {y_train.shape}")  # (samples,)
+
+# Now feed directly to your LSTM model!
 ```
 
-### Multivariate Example with Target Column
+### Real-World Example: Bitcoin Price Prediction
 
 ```python
-import pandas as pd
+# First, install with financial data support
+# pip install tsdc[examples]
+
 from tsdc import TimeSeriesDataset
+from tsdc.loaders import FinancialLoader
 
-data = pd.DataFrame({
-    'temperature': [...],
-    'humidity': [...],
-    'pressure': [...]
-})
+# Load Bitcoin data
+loader = FinancialLoader()
+btc_data = loader.load(
+    symbol="BTC-USD",
+    start_date="2023-01-01",
+    end_date="2024-01-01"
+)
 
+# Create dataset for LSTM
 dataset = TimeSeriesDataset(
-    data=data,
-    lookback=24,
-    horizon=6,
-    target_column='temperature',
+    data=btc_data[['Close', 'Volume']],
+    lookback=60,
+    horizon=1,
+    target_column='Close',
     scaler_type='minmax'
 )
 dataset.prepare()
 
 X_train, y_train = dataset.get_train()
+
+# Ready for your LSTM model!
+# X_train shape: (samples, 60, 2)  - 60 days, 2 features
+# y_train shape: (samples,)         - Next day's close price
 ```
 
 ## Core Concepts
