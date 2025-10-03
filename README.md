@@ -117,15 +117,20 @@ stride=5   # Less overlap, windows shift by 5 timesteps
 
 ### 3. Train/Val/Test Splits
 
-Time series splitting preserves temporal order:
+**IMPORTANT:** TSDC uses **temporal (sequential) splitting**, NOT random splitting!
+
+Time series splitting preserves temporal order to prevent data leakage:
 
 ```python
 TimeSeriesDataset(
     data=data,
-    train_split=0.7,   # First 70% for training
-    val_split=0.15,    # Next 15% for validation
-    test_split=0.15    # Last 15% for testing
+    train_split=0.7,   # First 70% for training (oldest data)
+    val_split=0.15,    # Next 15% for validation (middle data)
+    test_split=0.15    # Last 15% for testing (newest data)
 )
+
+# Train ← Val ← Test (sequential, no shuffling)
+# This prevents training on future data and testing on past data!
 ```
 
 ### 4. Scaling Options
